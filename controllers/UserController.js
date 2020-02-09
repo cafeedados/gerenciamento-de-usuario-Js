@@ -167,7 +167,9 @@ class UserController{
             };
 
             if(field.name == 'gender'){
-                user[field.name] = field.value;
+                if (field.checked) {
+                    user[field.name] = field.value;
+                };
                 
                 
 
@@ -237,7 +239,44 @@ class UserController{
 
 
         tr.querySelector('.btn-edit').addEventListener('click', e=>{
-            console.log(JSON.parse(tr.dataset.user));
+
+            let json = JSON.parse(tr.dataset.user);
+            let form = document.querySelector('#form-user-update')
+
+            /**
+             * ele percorrera o json e pegara cada nome de item e ira mostrar
+             */
+            for (let name in json){
+
+               let field =  form.querySelector('[name=' + name.replace('_', '') +']')
+                
+                
+               
+                if (field){                   
+
+                    switch (field.type){
+                       
+                        case 'file':
+                            continue;
+                        break;
+
+                        case 'radio':
+                            field = form.querySelector("[name=" + name.replace("_", "") + "][value=" + json[name] + "]");
+                            console.log(field);
+                            field.checked = true; 
+                            break;
+                        case 'checkbox':
+                            field.checked = json[name];
+
+                        break;
+
+                        default:
+                            field.value = json[name];
+                    };
+
+                    
+                };
+            };
 
             this.showPanelUpdate()
             
