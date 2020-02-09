@@ -44,7 +44,15 @@ class UserController{
          */
 
       //percorrer o filhos deles
-      this.formEL.elements.forEach(function(field, index){
+
+      /***
+       * estou dizendo que o formEL ele e um array, ja que e
+       * ele da entrada como um objeto e usamos o spred que sao
+       * os tres pontos para nao precisar dizer quantos indices sao
+       * 
+       * 
+       */
+    [...this.formEL.elements].forEach(function(field, index){
 
             if(field.name == 'gender'){
                 user[field.name] = field.value;
