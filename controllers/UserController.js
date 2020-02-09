@@ -23,6 +23,9 @@ class UserController{
                 //Para parar o comportamento padrao do envio de forumario
                 event.preventDefault();
 
+                let btn = this.formEL.querySelector('[type=submit]');
+                btn.disabled = true; //evitar que o usuario clique varias vezes ate a fianlizacao do carregamento apra nao duplicar dados
+
                 /**
                  * adicionar o values numa variavel 
                  * para conseguir extrair e alterar o valor
@@ -36,6 +39,13 @@ class UserController{
                             values.photo = content;
 
                             this.addLine(values);
+
+                            this.formEL.reset();
+
+                            //posterior adicionar a linhda ai ativa o botao
+                            btn.disabled = false;
+
+                        
                     }, 
                         (e) => { //se nao executa essa
                             console.error(e);
@@ -175,7 +185,7 @@ class UserController{
         <td>${dataUser.name}</td>
         <td>${dataUser.email}</td>
         <td>${(dataUser.admin) ? 'Sim' : 'Nao'}</td>
-        <td>${dataUser.birth}</td>
+        <td>${dataUser.register}</td>
         <td>
         <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
         <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
