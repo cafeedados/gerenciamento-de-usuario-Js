@@ -5,8 +5,19 @@ class UserController{
         this.tableEL = document.getElementById(tableId);
 
         this.onSubmit();
+        this.onEdit();
 
     };
+
+    onEdit(){
+
+        document.querySelector('#box-user-update .btn-cancel').addEventListener('click', e=>{
+
+            this.showPanelCreate();
+
+        });
+
+    }; //end onEdit
 
     onSubmit(){
 
@@ -219,10 +230,19 @@ class UserController{
         <td>${(dataUser.admin) ? 'Sim' : 'Nao'}</td>
         <td>${Utils.dateFormat(dataUser.register)}</td>
         <td>
-        <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+        <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
         <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
         </td>
         `;
+
+
+        tr.querySelector('.btn-edit').addEventListener('click', e=>{
+            console.log(JSON.parse(tr.dataset.user));
+
+            this.showPanelUpdate()
+            
+
+        })
 
         //criar o elemento como elemento filho do atual
         this.tableEL.appendChild(tr);
@@ -230,6 +250,20 @@ class UserController{
         this.updateCount();
 
     };//end addLine
+
+
+    showPanelCreate(){
+        document.querySelector('#box-user-create').style.display = 'block';
+        document.querySelector('#box-user-update').style.display = 'none'
+
+    }; //end showPanelCreate
+
+    showPanelUpdate(){
+
+        document.querySelector('#box-user-create').style.display = 'none';
+        document.querySelector('#box-user-update').style.display = 'block'
+        
+    }; //end showPanelUpdate
     
     updateCount(){
 
