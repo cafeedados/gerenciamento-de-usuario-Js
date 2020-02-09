@@ -70,3 +70,13 @@ E transformando isso com uma funcao usando innerHTML com tamplate string.
 
 
 UM OBJETO REPRESENTA A INSTANCIA DE UMA CLASSE
+
+
+## File Reader
+
+Consigo achar o caminho da imagem dele, porem ainda nao irei colocar no banco de dados
+
+
+quando usamos o comando new FileReader(), ja invoca o metodo construtor
+
+Funcoes de callback e executado apos a execucao de uma rotina

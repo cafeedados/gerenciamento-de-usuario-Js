@@ -23,15 +23,65 @@ class UserController{
                 //Para parar o comportamento padrao do envio de forumario
                 event.preventDefault();
 
+             /**
+              * adicionar o values numa variavel 
+              * para conseguir extrair e alterar o valor
+              * da foto
+              */
+             let values =  this.getValues();
+             values.photo = '';
+                
+             this.getPhoto((content) => {
+                 values.photo = content;
+
+                 this.addLine(values);
+
+             });
+
              
 
-             this.addLine(this.getValues());
+             
 
             
                 
             });
 
     };//end onSubmit
+
+    getPhoto(callback){
+
+        let fileReader = new FileReader();
+
+        let elements = [...this.formEL.elements].filter(item => {
+           if (item.name === 'photo'){
+               return item;
+
+           }; 
+        });
+
+        /**
+         * colocando o index 0 para pegar apenas ele e esse arquivo 
+         * tambem e uma colecao, porque pode ser mais de um arquivo ja 
+         * que a pessoa pode acabar selecionando mais, porem iremos pegar 
+         * apenas o primeiro arquivo e por isso o files esta no index 0
+         */
+        let file = elements[0].files[0];
+        
+        //uma funcao de callback para aguardar o upload
+        //pois a imagem pode ser pesada e etc
+        fileReader.onload = () => {
+
+            
+            callback(fileReader.result);
+
+
+        };
+
+
+        fileReader.readAsDataURL(file);
+
+
+    };//end getPhoto
 
     getValues(){
 
@@ -90,7 +140,7 @@ class UserController{
 
         this.tableEL.innerHTML = `
         <tr>
-        <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
+        <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
         <td>${dataUser.name}</td>
         <td>${dataUser.email}</td>
         <td>${dataUser.admin}</td>
