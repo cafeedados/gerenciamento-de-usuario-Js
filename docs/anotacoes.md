@@ -44,3 +44,29 @@ document.querySelectorAll('#form-user-create [name=gender]: checked')
 ```
 
 SPA - Single Page Aplication = aplicacao de uma unica pagina
+
+
+TRANSFORMANDO HTML
+
+```HTML
+    <tr>
+        
+                    <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
+                    <td>Fulano</td>
+                    <td>fulano@loutech.com.br</td>
+                    <td>Sim</td>
+                    <td>02/04/2018</td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                      <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                    </td>
+    </tr>
+
+
+```
+
+
+E transformando isso com uma funcao usando innerHTML com tamplate string.
+
+
+UM OBJETO REPRESENTA A INSTANCIA DE UMA CLASSE
