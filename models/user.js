@@ -15,7 +15,7 @@ class User {
 
     get register(){
         return this._register;
-    }
+    };
 
     get name(){
         return this._name;
@@ -53,7 +53,7 @@ class User {
 /*
     set register(){
          this._register;
-    }
+    };
 
     set name(){
          this._name;

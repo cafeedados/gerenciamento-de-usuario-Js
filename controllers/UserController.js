@@ -121,6 +121,7 @@ class UserController{
     getValues(){
 
         let user = {};
+        let isValid = true;
         
         /**
          * o forEach que percorre o forumulario pelo id e entrega o Json 
@@ -139,6 +140,16 @@ class UserController{
        */
     [...this.formEL.elements].forEach(function(field, index){
 
+
+            /**
+             * para validar os campos de nome, email e senha
+             */
+            if(['name', 'email', 'password'].indexOf(field.name) > -1 && !field.value){
+                field.parentElement.classList.add('has-error')
+                isValid = false;
+
+            };
+
             if(field.name == 'gender'){
                 user[field.name] = field.value;
                 
@@ -156,6 +167,11 @@ class UserController{
         // console.log(field);
 
         });
+
+        if (!isValid){
+            return false;
+
+        };
 
             return new User(
                 user.name, 
@@ -185,7 +201,7 @@ class UserController{
         <td>${dataUser.name}</td>
         <td>${dataUser.email}</td>
         <td>${(dataUser.admin) ? 'Sim' : 'Nao'}</td>
-        <td>${dataUser.register}</td>
+        <td>${Utils.dateFormat(dataUser.register)}</td>
         <td>
         <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
         <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
