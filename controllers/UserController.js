@@ -23,62 +23,78 @@ class UserController{
                 //Para parar o comportamento padrao do envio de forumario
                 event.preventDefault();
 
-             /**
-              * adicionar o values numa variavel 
-              * para conseguir extrair e alterar o valor
-              * da foto
-              */
-             let values =  this.getValues();
-             values.photo = '';
+                /**
+                 * adicionar o values numa variavel 
+                 * para conseguir extrair e alterar o valor
+                 * da foto
+                 */
+                let values =  this.getValues();
                 
-             this.getPhoto((content) => {
-                 values.photo = content;
+                //chamando baseado na promise do getPhoto
+                this.getPhoto().then(
+                        (content) => { //se der certo executa essa funao
+                            values.photo = content;
 
-                 this.addLine(values);
+                            this.addLine(values);
+                    }, 
+                        (e) => { //se nao executa essa
+                            console.error(e);
 
-             });
-
-             
-
-             
-
-            
-                
+                    }
+                );                   
+                             
             });
 
     };//end onSubmit
 
-    getPhoto(callback){
+    getPhoto(){
+        
+        /**
+         * promisse retorna uma funcao com dois parametros
+         * 
+         * ou seja quando der certo executa o resolve e quando nao 
+         * der executa o reject
+         * 
+         */
+        return new Promise((resolve, reject) => {
 
-        let fileReader = new FileReader();
+            let fileReader = new FileReader();
 
-        let elements = [...this.formEL.elements].filter(item => {
-           if (item.name === 'photo'){
-               return item;
+            let elements = [...this.formEL.elements].filter(item => {
+               if (item.name === 'photo'){
+                   return item;
+    
+               }; 
+            });
+    
+            /**
+             * colocando o index 0 para pegar apenas ele e esse arquivo 
+             * tambem e uma colecao, porque pode ser mais de um arquivo ja 
+             * que a pessoa pode acabar selecionando mais, porem iremos pegar 
+             * apenas o primeiro arquivo e por isso o files esta no index 0
+             */
+            let file = elements[0].files[0];
+            
+            //uma funcao de callback para aguardar o upload
+            //pois a imagem pode ser pesada e etc
+            fileReader.onload = () => {
+    
+                
+                resolve(fileReader.result);
+    
+    
+            }
 
-           }; 
+            fileReader.onerror = (e) => {
+                reject(e);
+            }
+    
+    
+            fileReader.readAsDataURL(file);
+
         });
 
-        /**
-         * colocando o index 0 para pegar apenas ele e esse arquivo 
-         * tambem e uma colecao, porque pode ser mais de um arquivo ja 
-         * que a pessoa pode acabar selecionando mais, porem iremos pegar 
-         * apenas o primeiro arquivo e por isso o files esta no index 0
-         */
-        let file = elements[0].files[0];
-        
-        //uma funcao de callback para aguardar o upload
-        //pois a imagem pode ser pesada e etc
-        fileReader.onload = () => {
-
-            
-            callback(fileReader.result);
-
-
-        };
-
-
-        fileReader.readAsDataURL(file);
+       
 
 
     };//end getPhoto

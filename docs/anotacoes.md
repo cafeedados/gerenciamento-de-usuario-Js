@@ -80,3 +80,13 @@ Consigo achar o caminho da imagem dele, porem ainda nao irei colocar no banco de
 quando usamos o comando new FileReader(), ja invoca o metodo construtor
 
 Funcoes de callback e executado apos a execucao de uma rotina
+
+## Diferenca de Sincrono e Assincrono
+
+**Sincrono:** O processamento sincrono ele ocorre em sincronia do sistema, toda acao entre o site e o usuario
+
+**Assincrono:** Assincrono nao dependem do usuario, sao atividades e recursos da aplicacao. 
+
+## Pomise
+
+E uma intencao ou promeca que executa uma acao assincrona, ou seja ele se prepara para a execucao do assincrono e se der algo certo faz alguma acao e se nao der executa outra acao
