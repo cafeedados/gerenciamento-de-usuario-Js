@@ -32,6 +32,11 @@ class UserController{
                  * da foto
                  */
                 let values =  this.getValues();
+
+                /**
+                 * conferir se values for false para poder retornar falso e nao dar o erro
+                 */
+                if(!values) return false;
                 
                 //chamando baseado na promise do getPhoto
                 this.getPhoto().then(
@@ -191,9 +196,20 @@ class UserController{
     //colocando os dados na tabela
     addLine(dataUser){
 
-        console.log(dataUser)
+        
 
         let tr = document.createElement('tr')
+
+        /**
+         * aqui ele ira converter em uma string
+         * Json para conseguirmos visualizar
+         * 
+         * ou seja vai serializar a string 
+         * sem ele aparece no console apenas a 
+         * palavra objetc por ser uma string
+         * nao serializada
+         */
+        tr.dataset.user = JSON.stringify(dataUser);
         
 
        tr.innerHTML = `        
@@ -211,8 +227,37 @@ class UserController{
         //criar o elemento como elemento filho do atual
         this.tableEL.appendChild(tr);
 
+        this.updateCount();
 
     };//end addLine
+    
+    updateCount(){
 
+        let numberUsers = 0;
+        let numberAdmin = 0;
+
+
+       [...this.tableEL.children].forEach(tr =>{
+
+        numberUsers++;
+
+        /**
+         * JSON parse ira interpretar a string 
+         * em json e tranformar ela em um obejto
+         */
+        let user = JSON.parse(tr.dataset.user);
+        /**
+         * no caso usamos com _admin e nao so admin 
+         * poreque o json ele retorna um objeto dson
+         * que pode dar conflito com o get 
+         * ai usamos o _admin da propriedade user
+         */
+        if (user._admin) numberAdmin++;
+
+       });
+
+       document.querySelector('#number-users').innerHTML = numberUsers;
+       document.querySelector('#number-users-admin').innerHTML = numberAdmin;
+    };
 
 };
