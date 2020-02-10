@@ -58,21 +58,15 @@ class UserController{
                             result._photo = content;
                         };
 
-                        tr.dataset.user = JSON.stringify(result);
-                        
-                        tr.innerHTML = `        
-                                <td><img src="${result._photo}" alt="User Image" class="img-circle img-sm"></td>
-                                <td>${result._name}</td>
-                                <td>${result._email}</td>
-                                <td>${(result._admin) ? 'Sim' : 'Nao'}</td>
-                                <td>${Utils.dateFormat(result._register)}</td>
-                                <td>
-                                <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                                <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
-                                </td>
-                        `;
+                       let user = new User();
 
-                         this.addEventsTr(tr);
+                       user.loadFormJson(result);
+                       
+                       
+                        this.getTr(user, tr)
+                        
+                     
+
 
                         //atualizar os dados radio e admin
                         this.updateCount();
@@ -308,9 +302,7 @@ class UserController{
     });
 
 
-    };
-
-
+    };//end SelectAll
 
 
     insert(data){
@@ -328,12 +320,19 @@ class UserController{
     //colocando os dados na tabela
     addLine(dataUser){
 
+       let tr = this.getTr(dataUser);
+        //criar o elemento como elemento filho do atual
+        this.tableEL.appendChild(tr);
+        this.updateCount();
+
+    };//end addLine
+
+    //tamplate base html
+    getTr(dataUser, tr = null){//aqui estou dizendo que o primeiro parametro obrigatoriamente deve passa o segundo nao necessariamente r
+
+        if(tr === null) tr = document.createElement('tr');
+
         
-
-        let tr = document.createElement('tr')
-
-        
-
         /**
          * aqui ele ira converter em uma string
          * Json para conseguirmos visualizar
@@ -344,9 +343,8 @@ class UserController{
          * nao serializada
          */
         tr.dataset.user = JSON.stringify(dataUser);
-        
 
-       tr.innerHTML = `        
+        tr.innerHTML = `        
         <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
         <td>${dataUser.name}</td>
         <td>${dataUser.email}</td>
@@ -357,17 +355,12 @@ class UserController{
         <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
         </td>
         `;
-
-
+        
         this.addEventsTr(tr);
 
-        //criar o elemento como elemento filho do atual
-        this.tableEL.appendChild(tr);
+        return tr
 
-        this.updateCount();
-
-    };//end addLine
-
+    }; //end getTr
 
     addEventsTr(tr){
 
