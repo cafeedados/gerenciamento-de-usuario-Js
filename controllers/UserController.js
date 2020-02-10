@@ -280,19 +280,11 @@ class UserController{
         
     };//end getValues
 
-    getUsersStorage(){
-        let users = [];
-
-        if (localStorage.getItem('users')){
-            users = JSON.parse(localStorage.getItem('users'));
-        };
-
-        return users;
-    };//end getUserStorage
+  
 
     selectAll(){
 
-    let users = this.getUsersStorage();
+    let users = User.getUsersStorage();
 
     users.forEach(dataUser=>{
 
@@ -358,6 +350,11 @@ class UserController{
             //confirm ele abre uma janela de conf com Ok e cancelar
             if(confirm('Deseja Realmente Excluir?')){
 
+                let user = new User();
+
+                user.loadFormJson(JSON.parse(tr.dataset.user));
+
+                user.remove();
                 tr.remove();
 
                 this.updateCount();
