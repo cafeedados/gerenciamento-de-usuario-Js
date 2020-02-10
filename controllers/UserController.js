@@ -7,6 +7,7 @@ class UserController{
 
         this.onSubmit();
         this.onEdit();
+        this.selectAll();
 
     };
 
@@ -129,6 +130,8 @@ class UserController{
                 this.getPhoto(this.formEL).then(
                         (content) => { //se der certo executa essa funao
                             values.photo = content;
+
+                            this.insert(values);
 
                             this.addLine(values);
 
@@ -281,6 +284,46 @@ class UserController{
         
     };//end getValues
 
+    getUsersStorage(){
+        let users = [];
+
+        if (sessionStorage.getItem('users')){
+            users = JSON.parse(sessionStorage.getItem('users'));
+        };
+
+        return users;
+    };//end getUserStorage
+
+    selectAll(){
+
+    let users = this.getUsersStorage();
+
+    users.forEach(dataUser=>{
+
+      let user = new User();
+      
+      user.loadFormJson(dataUser);
+    
+      this.addLine(user);
+    });
+
+
+    };
+
+
+
+
+    insert(data){
+
+        let users = this.getUsersStorage();
+        
+        users.push(data);
+
+        sessionStorage.setItem('users', JSON.stringify(users));
+
+
+    }//end insert
+
 
     //colocando os dados na tabela
     addLine(dataUser){
@@ -288,6 +331,8 @@ class UserController{
         
 
         let tr = document.createElement('tr')
+
+        
 
         /**
          * aqui ele ira converter em uma string
