@@ -90,3 +90,10 @@ Funcoes de callback e executado apos a execucao de uma rotina
 ## Pomise
 
 E uma intencao ou promeca que executa uma acao assincrona, ou seja ele se prepara para a execucao do assincrono e se der algo certo faz alguma acao e se nao der executa outra acao
+
+
+## OBJECT.ASSING
+
+Copia o valor de atributos de um objeto e cria um objeto destino, retornando esse objeto
+
+todos os objetos a diretia ele sobre escreve o a esqueda

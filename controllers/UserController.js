@@ -1,7 +1,8 @@
 class UserController{
     //
-    constructor(formId, tableId){
-        this.formEL = document.getElementById(formId);
+    constructor(formIdCreate, formIDUpdate, tableId){
+        this.formEL = document.getElementById(formIdCreate);
+        this.formUpdateEL = document.getElementById(formIDUpdate);
         this.tableEL = document.getElementById(tableId);
 
         this.onSubmit();
@@ -15,6 +16,81 @@ class UserController{
 
             this.showPanelCreate();
 
+        });
+
+        //agora irei inputar os dados alterados
+
+        this.formUpdateEL.addEventListener('submit', event =>{
+            event.preventDefault();
+            let btn = this.formUpdateEL.querySelector('[type=submit]');
+            btn.disabled = true; //evitar que o usuario clique varias vezes ate a fianlizacao do carregamento apra nao duplicar dados
+            
+            let values =  this.getValues(this.formUpdateEL);            
+     
+            let index = this.formUpdateEL.dataset.trIndex;
+            
+            let tr = this.tableEL.rows[index]
+
+            //tratando dado da foto recuperando a foto antiga
+            let userOld = JSON.parse(tr.dataset.user);
+            //juntando com as edicoes atuais
+            let result = Object.assign({}, userOld, values);
+
+  
+                 //chamando baseado na promise do getPhoto
+            this.getPhoto(this.formUpdateEL).then(
+                    (content) => { //se der certo executa essa funao
+                       
+                        if(!values.photo){
+                            //para que o valor nao perca
+                            /**
+                             * ja que no object assing o da direita sobrescreve
+                             * o da esqeurda ou seja o values la em cima se nao
+                             * enviar foto ele ira sobreescrever o userOld
+                             * com um vazio, entao avaixo eu fedino que se ele 
+                             * estiver vazio o result_photo vai receber 
+                             * a foto antiga
+                             */
+                            result._photo = userOld._photo;
+
+                        } else {
+                            result._photo = content;
+                        };
+
+                        tr.dataset.user = JSON.stringify(result);
+                        
+                        tr.innerHTML = `        
+                                <td><img src="${result._photo}" alt="User Image" class="img-circle img-sm"></td>
+                                <td>${result._name}</td>
+                                <td>${result._email}</td>
+                                <td>${(result._admin) ? 'Sim' : 'Nao'}</td>
+                                <td>${Utils.dateFormat(result._register)}</td>
+                                <td>
+                                <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
+                                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                                </td>
+                        `;
+
+                         this.addEventsTr(tr);
+
+                        //atualizar os dados radio e admin
+                        this.updateCount();
+
+                        this.formUpdateEL.reset();
+
+                        //posterior adicionar a linhda ai ativa o botao
+                        btn.disabled = false;
+
+                        this.showPanelCreate();
+
+                    
+                }, 
+                    (e) => { //se nao executa essa
+                        console.error(e);
+
+                }
+            );
+   
         });
 
     }; //end onEdit
@@ -42,7 +118,7 @@ class UserController{
                  * para conseguir extrair e alterar o valor
                  * da foto
                  */
-                let values =  this.getValues();
+                let values =  this.getValues(this.formEL);
 
                 /**
                  * conferir se values for false para poder retornar falso e nao dar o erro
@@ -50,7 +126,7 @@ class UserController{
                 if(!values) return false;
                 
                 //chamando baseado na promise do getPhoto
-                this.getPhoto().then(
+                this.getPhoto(this.formEL).then(
                         (content) => { //se der certo executa essa funao
                             values.photo = content;
 
@@ -73,7 +149,7 @@ class UserController{
 
     };//end onSubmit
 
-    getPhoto(){
+    getPhoto(formEL){
         
         /**
          * promisse retorna uma funcao com dois parametros
@@ -86,7 +162,7 @@ class UserController{
 
             let fileReader = new FileReader();
 
-            let elements = [...this.formEL.elements].filter(item => {
+            let elements = [...formEL.elements].filter(item => {
                if (item.name === 'photo'){
                    return item;
     
@@ -134,7 +210,7 @@ class UserController{
 
     };//end getPhoto
 
-    getValues(){
+    getValues(formEL){
 
         let user = {};
         let isValid = true;
@@ -154,7 +230,7 @@ class UserController{
        * 
        * 
        */
-    [...this.formEL.elements].forEach(function(field, index){
+    [...formEL.elements].forEach(function(field, index){
 
 
             /**
@@ -238,17 +314,29 @@ class UserController{
         `;
 
 
+        this.addEventsTr(tr);
+
+        //criar o elemento como elemento filho do atual
+        this.tableEL.appendChild(tr);
+
+        this.updateCount();
+
+    };//end addLine
+
+
+    addEventsTr(tr){
         tr.querySelector('.btn-edit').addEventListener('click', e=>{
 
             let json = JSON.parse(tr.dataset.user);
-            let form = document.querySelector('#form-user-update')
-
+           
+            
+            this.formUpdateEL.dataset.trIndex = tr.sectionRowIndex;
             /**
              * ele percorrera o json e pegara cada nome de item e ira mostrar
              */
             for (let name in json){
 
-               let field =  form.querySelector('[name=' + name.replace('_', '') +']')
+               let field =  this.formUpdateEL.querySelector('[name=' + name.replace('_', '') +']')
                 
                 
                
@@ -261,7 +349,7 @@ class UserController{
                         break;
 
                         case 'radio':
-                            field = form.querySelector("[name=" + name.replace("_", "") + "][value=" + json[name] + "]");
+                            field = this.formUpdateEL.querySelector("[name=" + name.replace("_", "") + "][value=" + json[name] + "]");
                             console.log(field);
                             field.checked = true; 
                             break;
@@ -278,18 +366,12 @@ class UserController{
                 };
             };
 
+            this.formUpdateEL.querySelector('.photo').src = json._photo;
             this.showPanelUpdate()
             
 
-        })
-
-        //criar o elemento como elemento filho do atual
-        this.tableEL.appendChild(tr);
-
-        this.updateCount();
-
-    };//end addLine
-
+        });
+    }//end events TR
 
     showPanelCreate(){
         document.querySelector('#box-user-create').style.display = 'block';
