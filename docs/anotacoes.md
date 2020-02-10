@@ -96,4 +96,5 @@ E uma intencao ou promeca que executa uma acao assincrona, ou seja ele se prepar
 
 Copia o valor de atributos de um objeto e cria um objeto destino, retornando esse objeto
 
-todos os objetos a diretia ele sobre escreve o a esqueda
+todos os objetos a diretia ele sobre escreve o a esqueda.
+

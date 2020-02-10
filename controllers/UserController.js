@@ -67,7 +67,7 @@ class UserController{
                                 <td>${Utils.dateFormat(result._register)}</td>
                                 <td>
                                 <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                                <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
                                 </td>
                         `;
 
@@ -309,7 +309,7 @@ class UserController{
         <td>${Utils.dateFormat(dataUser.register)}</td>
         <td>
         <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-        <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+        <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
         </td>
         `;
 
@@ -325,6 +325,22 @@ class UserController{
 
 
     addEventsTr(tr){
+
+        tr.querySelector('.btn-delete').addEventListener('click', e=>{
+               
+            //confirm ele abre uma janela de conf com Ok e cancelar
+            if(confirm('Deseja Realmente Excluir?')){
+
+                tr.remove();
+
+                this.updateCount();
+            };
+
+
+        });//end tr delete
+
+
+
         tr.querySelector('.btn-edit').addEventListener('click', e=>{
 
             let json = JSON.parse(tr.dataset.user);
@@ -370,7 +386,7 @@ class UserController{
             this.showPanelUpdate()
             
 
-        });
+        });//end tr edit
     }//end events TR
 
     showPanelCreate(){
