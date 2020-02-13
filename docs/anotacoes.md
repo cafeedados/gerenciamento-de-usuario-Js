@@ -108,3 +108,7 @@ Serve para interligar o front com o backend criando as principais pastas do expr
 $ npm install express-generator -g
 
 ```
+
+apos instalar movemos os arquivos do front para pasta public 
+
+e movemos o index para views e depois renomeamos ele como .ejs
