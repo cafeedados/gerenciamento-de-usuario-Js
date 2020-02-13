@@ -98,3 +98,13 @@ Copia o valor de atributos de um objeto e cria um objeto destino, retornando ess
 
 todos os objetos a diretia ele sobre escreve o a esqueda.
 
+## EXPRESS GENERATOR
+
+Serve para interligar o front com o backend criando as principais pastas do express
+
+
+```Bash
+
+$ npm install express-generator -g
+
+```
