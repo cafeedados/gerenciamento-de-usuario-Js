@@ -12,16 +12,16 @@ Este projeto foi desenvolvido para continuacao dos estudos em JavaScrip.
 
 ## Imagens do projeto
 
-Tela Principal:
+**Tela Principal:**
 <img src="/img/tela-de-apresentacao-princial.png">
 
-Formulario de cadastro preenchido:
+**Formulario de cadastro preenchido:**
 <img src="/img/tela-de-cadastro-preenchida.png">
 
-Formulario de edicao:
+**Formulario de edicao:**
 <img src="/img/tela-de-edicao.png">
 
-Bootstrap:
+**Bootstrap:**
 <img src="/img/bt4.png">
 
 ##  Tecnologias usadas
