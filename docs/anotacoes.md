@@ -136,3 +136,6 @@ isso no users criado pelo express no client server
 ## ajax Asinc JS 
 
 Ele serve para requisicoes asincronas, usando ajax com json
+
+
+## USANDO AJAX COM METODO POST E PUT

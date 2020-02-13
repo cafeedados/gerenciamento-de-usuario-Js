@@ -62,23 +62,24 @@ class UserController{
 
                        user.loadFormJson(result);
 
-                       user.save();
+                       user.save().then(user=>{
+
+                         
+                            this.getTr(user, tr)
+                  
+                            //atualizar os dados radio e admin
+                            this.updateCount();
+
+                            this.formUpdateEL.reset();
+
+                            //posterior adicionar a linhda ai ativa o botao
+                            btn.disabled = false;
+
+                            this.showPanelCreate();
+
+                       });
                        
-                       
-                        this.getTr(user, tr)
-                        
-                     
-
-
-                        //atualizar os dados radio e admin
-                        this.updateCount();
-
-                        this.formUpdateEL.reset();
-
-                        //posterior adicionar a linhda ai ativa o botao
-                        btn.disabled = false;
-
-                        this.showPanelCreate();
+                      
 
                     
                 }, 
@@ -127,15 +128,16 @@ class UserController{
                         (content) => { //se der certo executa essa funao
                             values.photo = content;
 
-                            values.save();
+                            values.save().then(user =>{
 
-                            this.addLine(values);
+                                this.addLine(user);
 
-                            this.formEL.reset();
+                                this.formEL.reset();
+    
+                                //posterior adicionar a linhda ai ativa o botao
+                                btn.disabled = false;
 
-                            //posterior adicionar a linhda ai ativa o botao
-                            btn.disabled = false;
-
+                            });
                         
                     }, 
                         (e) => { //se nao executa essa
@@ -283,9 +285,11 @@ class UserController{
   
 
     selectAll(){
+
+        
         
 
-        HttpRequest.get('/users').then(data=>{
+        User.getUsersStorage().then(data=>{
 
             data.users.forEach(dataUser=>{
 
@@ -359,10 +363,13 @@ class UserController{
 
                 user.loadFormJson(JSON.parse(tr.dataset.user));
 
-                user.remove();
-                tr.remove();
+                user.remove().then(data =>{
+                    tr.remove();
 
-                this.updateCount();
+                    this.updateCount();
+
+                });
+                
             };
 
 

@@ -63,7 +63,7 @@ class User {
                 break;
 
                 default:
-                    this[name] = json[name]
+                  if(name.substring(0, 1)=== '_')  this[name] = json[name]
             }
             
         };
@@ -72,72 +72,81 @@ class User {
 
 
     static getUsersStorage(){
-        let users = [];
-
-        if (localStorage.getItem('users')){
-            users = JSON.parse(localStorage.getItem('users'));
-        };
-
-        return users;
+       
+      return  HttpRequest.get('/users');
     };//end getUserStorage
 
-    getNewID(){
-
-        let usersID = parseInt(localStorage.getItem('usersID'));
-
-       if (!usersID > 0) usersID = 0;
-
-       usersID++;
-
-       localStorage.setItem('usersID', usersID)
-
-       return usersID;
-
-    }; //end get new ID
 
 
+    toJSON(){
+        /**
+         * Usar objetc.keys que ele vai ler exatamente 
+         * quais sao as chaves ou seja quais sao as prorpiedades
+         * e atributos do meu objeto instanciado entao passo
+         * o objeto dentro dele, e ele retorar um array
+         * 
+         * e como ele retorna um array podemos fazer um forEach
+         * onde iremos receber cada um das keys
+         * 
+         * criado o objeto json onde dentro desse objeto coloco 
+         * essa chave, e digo que ela tem o mesmo valor que o this
+         * nesse objeto
+         * 
+         * porem so vamos fazer isso se nao for undefined, para nao 
+         * adicionar umdefinided la
+         */
+        let json = {};
+
+        Object.keys(this).forEach(key =>{
+
+            if(this[key] !== undefined) json[key] = this[key];
+
+        });
+
+        return json;
+
+    };
 
     save(){
 
-        let users = User.getUsersStorage();
+       return new Promise((resolve, reject) => {
 
-        if(this.id > 0){
 
-            users.map(u=>{
+        let promise;
 
-                if(u._id == this.id){
+        if (this.id){
+            
+           promise = HttpRequest.put(`/users/${this.id}`, this.toJSON())
 
-                    Object.assign(u, this);
-                }
-                return u;
-            });
 
-           
         } else {
-            this._id = this.getNewID();
 
-            users.push(this);
+            promise = HttpRequest.post(`/users`, this.toJSON())
 
-        };       
+        };
+
+        promise.then(data => {
+
+            this.loadFormJson(data);
+
+            resolve(this);
+
+        }).catch(e => {
+
+
+            reject(e);
+        });
+
+
+        });
+
+
        
-        localStorage.setItem('users', JSON.stringify(users));
     }; // end save
 
     remove(){
 
-        let users = User.getUsersStorage();
-
-        users.forEach((userData, index) =>{
-            if(this._id == userData._id){
-                
-                users.splice(index, 1); //para remover pelo index
-
-            };
-        });
-
-        localStorage.setItem('users', JSON.stringify(users));
-
-
+        return HttpRequest.delete(`/users/${this.id}`)
 
     };
 
