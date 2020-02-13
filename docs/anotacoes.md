@@ -133,6 +133,6 @@ http://restify.com/docs/client-guide/
 isso no users criado pelo express no client server
 
 
-## ajax 
+## ajax Asinc JS 
 
-Ele serve para requisicoes asincronas
+Ele serve para requisicoes asincronas, usando ajax com json
