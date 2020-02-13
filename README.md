@@ -15,6 +15,15 @@ Este projeto foi desenvolvido para continuacao dos estudos em JavaScrip.
 Tela Principal:
 <img src="/img/tela-de-apresentacao-princial.png">
 
+Formulario de cadastro preenchido:
+<img src="/img/tela-de-cadastro-preenchida.png">
+
+Formulario de edicao:
+<img src="/img/tela-de-edicao.png">
+
+Bootstrap:
+<img src="/img/bt4.png">
+
 ##  Tecnologias usadas
 Projeto Desenvolvidos nas Seguintes Tecologias:
 
@@ -23,7 +32,7 @@ Projeto Desenvolvidos nas Seguintes Tecologias:
 - [CSS](https://www.w3schools.com/cssref/default.asp)
 - [Bootstrap](https://getbootstrap.com/)
 - [Node.js](https://nodejs.org/en/)
-
+- [Restify](http://restify.com/docs/client-guide/)
 
 
 ## Tamplate
