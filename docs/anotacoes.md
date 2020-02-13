@@ -131,3 +131,8 @@ Basta olhar na documentacao do resfy que tem os exemplos de cliet
 http://restify.com/docs/client-guide/
 
 isso no users criado pelo express no client server
+
+
+## ajax 
+
+Ele serve para requisicoes asincronas

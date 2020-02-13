@@ -284,16 +284,40 @@ class UserController{
 
     selectAll(){
 
-    let users = User.getUsersStorage();
+        //let users = User.getUsersStorage();
 
-    users.forEach(dataUser=>{
+        let ajax = new XMLHttpRequest(); //chamando o ajax
 
-      let user = new User();
-      
-      user.loadFormJson(dataUser);
-    
-      this.addLine(user);
-    });
+        //precisamos falar onde ele vai chamar e o metodo
+        ajax.open('GET', '/users')
+
+        //apos isso precisamos configurar um evento de resposta 
+        //porque nao sabemos quanto tempo vai levar
+        ajax.onload = event => {
+
+            let obj = { users : []};
+
+            try{
+
+                obj = JSON.parse(ajax.responseText);
+
+            } catch(e){
+
+                console.error(e);
+            };            
+
+            obj.users.forEach(dataUser=>{
+
+                let user = new User();
+                
+                user.loadFormJson(dataUser);
+            
+                this.addLine(user);
+            });
+
+        };
+
+        ajax.send();
 
 
     };//end SelectAll
