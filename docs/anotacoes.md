@@ -112,3 +112,22 @@ $ npm install express-generator -g
 apos instalar movemos os arquivos do front para pasta public 
 
 e movemos o index para views e depois renomeamos ele como .ejs
+
+## Usando um Framework Restify
+
+ele e um framewoek escrito em node, ele e um web serverser que permite tanto ter o servidor restful quanto o servidor cliente
+ajudando a consumir a api
+
+para instalar
+
+```JavaScript
+
+$ npm install restify-clients --save
+
+```
+
+Basta olhar na documentacao do resfy que tem os exemplos de cliet
+
+http://restify.com/docs/client-guide/
+
+isso no users criado pelo express no client server
